@@ -1,0 +1,39 @@
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dense
+from tensorflow.keras.layers import Conv1D, Dropout, MaxPooling1D
+
+model = tf.keras.Sequential([
+        Embedding(vocab_size, embedding_dim, input_length=max_length),
+        Dropout(0.2),
+------------------------------------------------------------------------------
+        MaxPooling1D(pool_size = 3),
+
+        Conv1D(filters = 128, kernel_size = 3, activation = "relu"),
+        MaxPooling1D(pool_size = 3),
+-----------------------------------------------------------------------------
+        Dense(128, activation = "relu"),
+        Dropout(0.2),
+        Dense(64, activation = "relu"),
+        Dense(6, activation = "softmax")])
+---------------------------------------------------------------------------
+model.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+--------------------------------------------------------------------------------
+num_epochs = 30
+history = model.fit(training_padded, training_labels, epochs=num_epochs, verbose=2)
+----------------------------------------------------------------------------------------------
+sentence = ["I am happy to meet my friends. We are planning to go to a party.", "I had a bad day at school. i got hurt while playing football"]
+
+sequences = tokenizer.texts_to_sequences(sentence)
+
+padded = pad_sequences(sequences, maxlen=max_length,padding=padding_type, truncating=trunc_type)
+
+result=model.predict(padded)
+
+predict_class = np.argmax(result, axis=1)
+predict_class
+
+# {"anger": 0, "fear": 1, "joy": 2, "love": 3, "sadness": 4, "surprise": 5}
+---------------------------------------------------------------------------------------------.
+
+
+
